@@ -51,6 +51,9 @@ data_raw_selected <- data_raw %>%
 
 read_books<-data_raw_selected[!is.na(data_raw_selected$Date.Read),]
 read_books$shelf.days <- as.integer(read_books$Date.Read - read_books$Date.Added)
+read_books$pub.year.date <- as.POSIXct(paste0(as.character(read_books$Original.Publication.Year),"/01/01"),format="%Y/%m/%d")
+read_books$book.age.days <- as.integer(read_books$Date.Read - read_books$pub.year.date)
+read_books$book.age.years <- as.integer((read_books$Date.Read - read_books$pub.year.date)/365.24)
 unread_books<-data_raw_selected[is.na(data_raw_selected$Date.Read),]
 read_goodreads <- read_books[read_books$Date.Read >= read_books$Date.Added,]
 read_before_gr <- read_books[read_books$Date.Read < read_books$Date.Added,]

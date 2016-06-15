@@ -20,3 +20,9 @@ print(thisplot)
 
 thisplot <- qplot(Original.Publication.Year,My.Rating,data=read_before_gr,main = "My Rating Read Before Goodreads By Year")
 print(thisplot)
+
+thisplot <- qplot(book.age.years,Average.Rating,data=read_goodreads,main = "Average Rating Read After Goodreads By Book Age")
+print(thisplot)
+
+thisplot <- qplot(book.age.years,My.Rating,data=read_goodreads,main = "My Rating Read After Goodreads By Book Age")
+print(thisplot)
