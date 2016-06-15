@@ -1,4 +1,5 @@
 require(ggplot2)
+if (FALSE) {
 thisplot <- qplot(Average.Rating,My.Rating,data=read_books,main = "All Read Books")
 print(thisplot)
 
@@ -25,4 +26,55 @@ thisplot <- qplot(book.age.years,Average.Rating,data=read_goodreads,main = "Aver
 print(thisplot)
 
 thisplot <- qplot(book.age.years,My.Rating,data=read_goodreads,main = "My Rating Read After Goodreads By Book Age")
+print(thisplot)
+}
+
+#thisplot <- ggplot(read_goodreads,aes(Original.Publication.Year,My.Rating+Average.Rating)) + geom_count()
+
+thisplot <- ggplot(read_goodreads,aes(Original.Publication.Year,My.Rating))
+thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + geom_count(aes(color="red"))
+thisplot <- thisplot + geom_point(aes(Original.Publication.Year,Average.Rating,color="blue"))
+thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
+                          breaks=c("blue", "red"),
+                          labels=c("Avg", "Mine"))
+thisplot <- thisplot + ggtitle("Rating vs Pub Year")
+
+print(thisplot)
+
+thisplot <- ggplot(read_goodreads,aes(reorder(book.age.years, Original.Publication.Year),My.Rating))
+thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + geom_count(aes(color="red"))
+#thisplot <- thisplot + geom_point(aes(reorder(book.age.years, Original.Publication.Year),Average.Rating,color="blue"))
+#thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
+#                                             breaks=c("blue", "red"),
+#                                             labels=c("Avg", "Mine"))
+#thisplot <- thisplot + ggtitle("Rating vs Book Age")
+
+print(thisplot)
+
+
+thisplot <- ggplot(read_books,aes(Original.Publication.Year,My.Rating, group=before_after_gr,color="red"))
+thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + geom_count()
+thisplot <- thisplot + geom_point(aes(Original.Publication.Year,Average.Rating, group=before_after_gr,color="blue"))
+thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
+                                             breaks=c("blue", "red"),
+                                             labels=c("Avg", "Mine"))
+thisplot <- thisplot + ggtitle("Rating vs Pub Year2")
+thisplot <- thisplot + facet_grid(before_after_gr ~ ., scales = "free", space = "free")
+
+print(thisplot)
+
+
+thisplot <- ggplot(read_books,aes(book.age.years,My.Rating, group=before_after_gr,color="red"))
+thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + geom_count()
+thisplot <- thisplot + geom_point(aes(book.age.years,Average.Rating, group=before_after_gr,color="blue"))
+thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
+                                             breaks=c("blue", "red"),
+                                             labels=c("Avg", "Mine"))
+thisplot <- thisplot + ggtitle("Rating vs book.age.years2")
+thisplot <- thisplot + facet_grid(before_after_gr ~ ., scales = "free", space = "free")
+
 print(thisplot)
