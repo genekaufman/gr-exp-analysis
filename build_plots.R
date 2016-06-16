@@ -68,7 +68,7 @@ print(thisplot)
 
 
 thisplot <- ggplot(read_books,aes(book.age.years,My.Rating, group=before_after_gr,color="red"))
-thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + labs(x="Book Age", y="Rating")
 thisplot <- thisplot + geom_count()
 thisplot <- thisplot + geom_point(aes(book.age.years,Average.Rating, group=before_after_gr,color="blue"))
 thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
@@ -76,5 +76,25 @@ thisplot <- thisplot + scale_colour_discrete(name  ="Rating",
                                              labels=c("Avg", "Mine"))
 thisplot <- thisplot + ggtitle("Rating vs book.age.years2")
 thisplot <- thisplot + facet_grid(before_after_gr ~ ., scales = "free", space = "free")
+
+print(thisplot)
+
+thisplot <- ggplot(read_books,aes(book.age.years,rating_error, group=before_after_gr,color="red"))
+thisplot <- thisplot + labs(x="Book Age", y="Rating Error")
+thisplot <- thisplot + geom_count()
+thisplot <- thisplot + geom_abline()
+thisplot <- thisplot + geom_vline(xintercept=16)
+thisplot <- thisplot + geom_vline(xintercept=116)
+thisplot <- thisplot + ggtitle("Rating Error vs book.age.years")
+thisplot <- thisplot + facet_grid(before_after_gr ~ ., scales = "free", space = "free")
+
+print(thisplot)
+
+thisplot <- ggplot(data_raw_selected,aes(Original.Publication.Year,Average.Rating, group=Series.Num))
+thisplot <- thisplot + labs(x="Pub Year", y="Rating")
+thisplot <- thisplot + geom_count()
+thisplot <- thisplot + geom_abline()
+thisplot <- thisplot + ggtitle("Rating vs Pub Year by Series#")
+thisplot <- thisplot + facet_grid(Series.Num ~ ., scales = "free", space = "free")
 
 print(thisplot)
