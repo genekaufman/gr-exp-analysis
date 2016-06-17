@@ -38,8 +38,28 @@ data_raw$Series.Num <- as.factor(data_raw$Series.Num)
 #data_raw$Audiobook.Time <- as.numeric(as.difftime(data_raw_selected$Audiobook.Length,format="%H hrs and %M mins",units="hour"),units="hours")
 data_raw$Audiobook.Narrator <- stri_match_first(paste(data_raw$Private.Notes,"<br/>"),regex="<br/>Narrated by (.*?)<",opts_regex=stri_opts_regex(case_insensitive=TRUE))[,2]
 
+data_raw$Binding <- gsub("Mass Market Paperback","Print",data_raw$Binding)
+data_raw$Binding <- gsub("Mass Market","Print",data_raw$Binding)
+data_raw$Binding <- gsub("Hardcover","Print",data_raw$Binding)
+data_raw$Binding <- gsub("Paperback","Print",data_raw$Binding)
+data_raw$Binding <- gsub("Library Binding","Print",data_raw$Binding)
+
+data_raw$Binding <- gsub("Audible Audio","Audiobook",data_raw$Binding)
+data_raw$Binding <- gsub("Audio CD","Audiobook",data_raw$Binding)
+data_raw$Binding <- gsub("Podiobook","Audiobook",data_raw$Binding)
+
+data_raw$Binding <- gsub("Kindle Edition","ebook",data_raw$Binding)
+data_raw$Binding <- gsub("ebook","eBook",data_raw$Binding)
+
+data_raw$Binding <- as.factor(data_raw$Binding)
+
+data_raw$Decade.pub <- paste0(stri_sub(data_raw$Original.Publication.Year,1,3),'0')
+data_raw$Decade.pub <- gsub("NA0","UNK",data_raw$Decade.pub)
+data_raw$Decade.pub <- as.factor(data_raw$Decade.pub)
+
 wanted_fields <- c("Book.Id","Title","Author.l.f","ISBN","My.Rating",
                    "Average.Rating","Binding","Number.of.Pages","Original.Publication.Year",
+                   "Decade.pub",
                    "Date.Read","Date.Added","Bookshelves","Exclusive.Shelf",
                    "Series.Num",
                    "My.Review.Length","Audiobook.Length", "Audiobook.Time",
