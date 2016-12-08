@@ -57,6 +57,17 @@ data_raw$Decade.pub <- paste0(stri_sub(data_raw$Original.Publication.Year,1,3),'
 data_raw$Decade.pub <- gsub("NA0","UNK",data_raw$Decade.pub)
 data_raw$Decade.pub <- as.factor(data_raw$Decade.pub)
 
+data_raw$Genre.TT <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-time-travel(.*?),")[,1]
+data_raw$Genre.Dy <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-dystopia(.*?),")[,1]
+data_raw$Genre.PA <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-post-apocalyptic(.*?),")[,1]
+data_raw$Genre.UF <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-urban-fantasy(.*?),")[,1]
+data_raw$Genre.FA <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-fantasy(.*?),")[,1]
+
+data_raw$Genre.YA <- stri_match_first(paste0(data_raw$Bookshelves,","),regex="g-ya(.*?),")[,1]
+data_raw$Genre.YA <- as.factor(data_raw$Genre.YA)
+#data_raw$Genre <- paste(c(data_raw$Genre.TT,data_raw$Genre.Dy,data_raw$Genre.PA,data_raw$Genre.UF,data_raw$Genre.FA), sep=" ")
+#data_raw$Genre <- as.factor(data_raw$Genre)
+
 wanted_fields <- c("Book.Id","Title","Author.l.f","ISBN","My.Rating",
                    "Average.Rating","Binding","Number.of.Pages","Original.Publication.Year",
                    "Decade.pub",
@@ -64,16 +75,18 @@ wanted_fields <- c("Book.Id","Title","Author.l.f","ISBN","My.Rating",
                    "Series.Num",
                    "My.Review.Length","Audiobook.Length", "Audiobook.Time",
                    "Audiobook.Narrator",
-                   "Private.Notes","My.Review")
+                   "Private.Notes","My.Review",
+                   "Genre.YA")
 
 wanted_fields_debug <- c("Book.Id",
                    "Audiobook.Length", "Audiobook.Time",
                    "Private.Notes",
                    "Audiobook.Narrator","Title","Author.l.f")
 
+#message("86")
 data_raw_selected <- data_raw %>%
   select(one_of(wanted_fields))
-
+#message("89")
 #data_raw_selected$Book.Id <- paste0('https://www.goodreads.com/review/edit/',data_raw_selected$Book.Id)
 
 read_books<-data_raw_selected[!is.na(data_raw_selected$Date.Read),]
